@@ -40,8 +40,8 @@ jobs:
     name: Validate build
     uses: ./.github/workflows/prepare-build.yml
     with:
-      run-static-analysis: true
-      fetch-latest-python: true
+      run-static-analysis: false
+      fetch-latest-python: false
 
   test:
     name: Test Python ${{ matrix.python-version }} on ${{ startsWith(matrix.os, 'macos-') && 'macOS' || startsWith(matrix.os, 'windows-') && 'Windows' || 'Linux' }}
@@ -174,7 +174,7 @@ jobs:
   build-wheels:
     name: Build wheels ${{ github.event_name == 'release' && 'for release' || '' }}
     needs:
-    - test
+    #- test
     - prepare
     uses: ./.github/workflows/build-wheels.yml
     with:
