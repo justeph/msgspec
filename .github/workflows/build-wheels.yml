@@ -31,6 +31,8 @@ jobs:
           archs: ARM64
         - os: windows-latest
           archs: AMD64
+        - os: ubuntu-latest
+          archs: riscv64
 
     env:
       CIBW_SKIP: "${{ !inputs.build-all && '*-musllinux_*' || '' }}"
@@ -50,6 +52,10 @@ jobs:
     - name: Install uv
       if: runner.os != 'Linux'
       uses: astral-sh/setup-uv@v7
+
+    - name: Set up QEMU
+      if: matrix.archs == 'riscv64'
+      uses: docker/setup-qemu-action@v3
 
     - name: Build & Test Wheels
       uses: pypa/cibuildwheel@v3.2.1
